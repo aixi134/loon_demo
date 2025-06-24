@@ -248,10 +248,11 @@ const priceHistoryTable = (data) => {
 };
 
 const Table = (result) => {
-           $log(3333333333333)
-    return priceHistoryTable({
-        groupName: "历史比价"
-    });
+           $log('初始化Table方法')
+    // return priceHistoryTable({
+    //     groupName: "历史比价"
+    // });
+    return "<div >xxxxxxxxxxx</div>"
 };
 
 
@@ -271,7 +272,7 @@ const Render = {
 const main = async () => {
     try {
         //const ID = $request.url.match(/\d+/);
-         $log(111111111111)
+         $log('初始化main方法')
         //
         // if (msg) {
         //     Render.inject(`<h2>${msg}</h2>`).done();
