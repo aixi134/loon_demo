@@ -240,11 +240,13 @@ const priceHistoryTable = (data) => {
             </button>
         </div>
     </div>`;
+
+               $log(6666666666)
     return html;
 };
 
 const Table = (result) => {
-
+           $log(3333333333333)
     return priceHistoryTable({
         groupName: "历史比价"
     });
@@ -253,6 +255,7 @@ const Table = (result) => {
 
 const Render = {
     inject(html) {
+                 $log(222222222)
         const { body } = $response;
         $response.body = body.replace("<body>", `<body>${html}`);
         return this;
@@ -265,8 +268,8 @@ const Render = {
 
 const main = async () => {
     try {
-        const ID = $request.url.match(/\d+/);
-
+        //const ID = $request.url.match(/\d+/);
+         $log(111111111111)
         //
         // if (msg) {
         //     Render.inject(`<h2>${msg}</h2>`).done();
@@ -277,7 +280,7 @@ const main = async () => {
         const isDark = hour >= 20 || hour < 6;
 
         Render
-            .inject(Table({resultL: ""}))
+            .inject(Table({}))
             .inject(`<script>isDark=${isDark}</script>`)
             .done();
     } catch (e) {
