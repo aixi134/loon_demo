@@ -31,12 +31,16 @@ const priceHistoryTable = (data) => {
             
             // 更新显示
             function updateDisplay() {
+                $log(111111111111)
                 const currentFormatted = formatTime(currentTime);
+                $log(2222222222222)
                 const totalFormatted = formatTime(totalTime);
+                $log(33333333)
                 timeDisplay.textContent = \`当前时间: ${currentFormatted} / ${totalFormatted}\`;
-                
+                $log(4444444)
                 const progressPercentage = (currentTime / totalTime) * 100;
                 progressBar.style.width = \`${Math.min(progressPercentage, 100)}%\`;
+                $log(6666666666)
             }
             
             // 格式化时间为 HH:MM:SS
