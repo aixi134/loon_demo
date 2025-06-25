@@ -16,67 +16,10 @@ const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
     init();
 
 const priceHistoryTable = (data) => {
+    $log('进入priceHistoryTable')
     const themeDetection = `
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const totalTimeInput = document.getElementById('total-time');
-            const skipTimeInput = document.getElementById('skip-time');
-            const fastForwardBtn = document.getElementById('fast-forward-btn');
-            const timeDisplay = document.getElementById('time-display');
-            const progressBar = document.getElementById('progress-bar');
-            
-            let currentTime = 0;
-            let totalTime = parseInt(totalTimeInput.value);
-            let skipTime = parseInt(skipTimeInput.value);
-            
-            // 更新显示
-            function updateDisplay() {
-                $log('a111111111111')
-                $log(currentTime)
-                const currentFormatted = formatTime(currentTime);
-                $log(currentFormatted)
-                $log('a2222222222222')
-                const totalFormatted = formatTime(totalTime);
-                $log('a33333333')
-                timeDisplay.textContent = \`当前时间: ${currentFormatted} / ${totalFormatted}\`;
-                $log(4444444)
-                const progressPercentage = (currentTime / totalTime) * 100;
-                progressBar.style.width = \`${Math.min(progressPercentage, 100)}%\`;
-                $log(6666666666)
-            }
-            
-            // 格式化时间为 HH:MM:SS
-            function formatTime(seconds) {
-                const hrs = Math.floor(seconds / 3600);
-                const mins = Math.floor((seconds % 3600) / 60);
-                const secs = Math.floor(seconds % 60);
-                
-                return \`${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}\`;
-            }
-            
-            // 快进按钮点击事件
-            fastForwardBtn.addEventListener('click', function() {
-                currentTime = Math.min(currentTime + skipTime, totalTime);
-                updateDisplay();
-                
-                // 添加点击动画
-                this.classList.add('active');
-                setTimeout(() => this.classList.remove('active'), 300);
-            });
-            
-            // 输入变化时更新值
-            totalTimeInput.addEventListener('input', function() {
-                totalTime = parseInt(this.value) || 0;
-                updateDisplay();
-            });
-            
-            skipTimeInput.addEventListener('input', function() {
-                skipTime = parseInt(this.value) || 0;
-            });
-            
-            // 初始化显示
-            updateDisplay();
-        });
+       
     </script>
   `;
 
