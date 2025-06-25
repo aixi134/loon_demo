@@ -190,6 +190,13 @@ const main = async () => {
         //const ID = $request.url.match(/\d+/);
          $log('初始化main方法')
          $log($script)
+         if($script.name == '获取视频信息'){
+            const { body } = $response;
+            const videoInfo = extractVideoInfo(body);
+
+            $log('视频信息:', videoInfo);
+            return;
+         }
         //
         // if (msg) {
         //     Render.inject(`<h2>${msg}</h2>`).done();
