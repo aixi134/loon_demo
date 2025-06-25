@@ -260,8 +260,9 @@ const Render = {
     inject(html) {
                  $log(222222222)
         const { body } = $response;
-        $log(body);
-        $response.body = body.replace("<body>", `<body>${html}`);
+        $log(html);
+        //$response.body = body.replace("<body>", `<body>${html}`);
+        $response.body = body.replace(/(<body[^>]*>)/i, `$1${html}`);
         $log($response.body);
         return this;
     },
