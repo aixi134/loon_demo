@@ -249,10 +249,10 @@ const priceHistoryTable = (data) => {
 
 const Table = (result) => {
            $log('初始化Table方法')
-    // return priceHistoryTable({
-    //     groupName: "历史比价"
-    // });
-    return "<div >xxxxxxxxxxx</div>"
+    return priceHistoryTable({
+        groupName: "历史比价"
+    });
+    // return "<div >xxxxxxxxxxx</div>"
 };
 
 
