@@ -262,8 +262,8 @@ const Render = {
     inject(html) {
                  $log(222222222)
         const { body } = $response;
-        $log(body)
-        $log(JSON.stringify(body))
+        $log(body);
+        $log(JSON.stringify(body));
         $response.body = body.replace("<body>", `<body>${html}`);
         return this;
     },
