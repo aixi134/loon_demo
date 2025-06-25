@@ -191,7 +191,7 @@ const main = async () => {
          $log('初始化main方法')
          $log($script)
          if($script.name == '获取视频信息'){
-            const { body } = $response;
+            const { body } = $response.body;
             const videoInfo = extractVideoInfo(body);
 
             $log('视频信息:', videoInfo);
