@@ -12,6 +12,8 @@
 hostname = %APPEND% free.hulizhushou.com, apapia-sqk-weblogic.manmanbuy.com
 */
 
+const { json } = require("stream/consumers");
+
 const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
     init();
 
@@ -260,6 +262,8 @@ const Render = {
     inject(html) {
                  $log(222222222)
         const { body } = $response;
+        $log(body)
+        $log(JSON.stringify(body))
         $response.body = body.replace("<body>", `<body>${html}`);
         return this;
     },
