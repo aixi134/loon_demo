@@ -261,8 +261,8 @@ const Render = {
                  $log(222222222)
         const { body } = $response;
         $log(body);
-        $log(JSON.stringify(body));
         $response.body = body.replace("<body>", `<body>${html}`);
+        $log($response.body);
         return this;
     },
     done() {
