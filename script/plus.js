@@ -227,6 +227,7 @@ const main = async () => {
  */
 function extractVideoInfo(apiResponse) {
     // 检查数据是否有效
+    apiResponse = JSON.parse(apiResponse);
     $log(apiResponse)
     if (!apiResponse || !apiResponse.data || !apiResponse.data.video_details || 
         !apiResponse.data.video_details[0]) {
