@@ -17,7 +17,7 @@ const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
 
 const priceHistoryTable = (data) => {
     $log('进入priceHistoryTable')
-    const html = `<div id="video-skip-float-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    const html = `<div id="video-skip-float-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: move;">
                     <div id="video-skip-float-btn" style="width: 50px; height: 50px; background: #0071e3; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);">
                         <div style="width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 16px solid white; position: relative; margin-left: 3px;"></div>
                         <div style="width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 16px solid white; position: relative; left: -13px;"></div>
@@ -60,6 +60,7 @@ const priceHistoryTable = (data) => {
                     let panelVisible = false;
                     
                     // 获取DOM元素
+                    const container = document.getElementById('video-skip-float-container');
                     const floatBtn = document.getElementById('video-skip-float-btn');
                     const panel = document.getElementById('video-skip-panel');
                     const totalTimeInput = document.getElementById('skip-total-time');
@@ -67,6 +68,10 @@ const priceHistoryTable = (data) => {
                     const actionBtn = document.getElementById('skip-action-btn');
                     const timeDisplay = document.getElementById('skip-time-display');
                     const progressBar = document.getElementById('skip-progress-bar');
+                    
+                    // 拖动相关变量
+                    let isDragging = false;
+                    let offsetX, offsetY;
                     
                     // 格式化时间为 HH:MM:SS
                     function formatTime(seconds) {
@@ -88,6 +93,39 @@ const priceHistoryTable = (data) => {
                         panelVisible = !panelVisible;
                         panel.style.display = panelVisible ? 'block' : 'none';
                     }
+                    
+                    // 拖动功能
+                    container.addEventListener('mousedown', function(e) {
+                        // 只有当点击的是容器本身而不是子元素时才触发拖动
+                        if (e.target === container) {
+                            isDragging = true;
+                            offsetX = e.clientX - container.getBoundingClientRect().left;
+                            offsetY = e.clientY - container.getBoundingClientRect().top;
+                            container.style.cursor = 'grabbing';
+                        }
+                    });
+                    
+                    document.addEventListener('mousemove', function(e) {
+                        if (!isDragging) return;
+                        
+                        // 计算新位置
+                        let left = e.clientX - offsetX;
+                        let top = e.clientY - offsetY;
+                        
+                        // 限制在视窗内
+                        left = Math.max(0, Math.min(left, window.innerWidth - container.offsetWidth));
+                        top = Math.max(0, Math.min(top, window.innerHeight - container.offsetHeight));
+                        
+                        container.style.left = left + 'px';
+                        container.style.top = top + 'px';
+                        container.style.right = 'auto';
+                        container.style.bottom = 'auto';
+                    });
+                    
+                    document.addEventListener('mouseup', function() {
+                        isDragging = false;
+                        container.style.cursor = 'move';
+                    });
                     
                     // 事件监听
                     floatBtn.addEventListener('click', togglePanel);
