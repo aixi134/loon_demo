@@ -17,176 +17,106 @@ const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
 
 const priceHistoryTable = (data) => {
     $log('进入priceHistoryTable')
-    const themeDetection = `
-    <script>
-       
-    </script>
-  `;
+    const html = `<div id="video-skip-float-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+                    <div id="video-skip-float-btn" style="width: 50px; height: 50px; background: #0071e3; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);">
+                        <div style="width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 16px solid white; position: relative; margin-left: 3px;"></div>
+                        <div style="width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 16px solid white; position: relative; left: -13px;"></div>
+                    </div>
 
-    const css = `<style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f7;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+                    <div id="video-skip-panel" style="display: none; position: absolute; bottom: 60px; right: 0; width: 300px; background: white; border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
+                        <h3 style="font-size: 18px; font-weight: 600; color: #1d1d1f; margin-top: 0; margin-bottom: 15px; text-align: center;">视频快进控制</h3>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; font-size: 13px; font-weight: 500; color: #86868b; margin-bottom: 6px;">视频总时长 (秒)</label>
+                            <input id="skip-total-time" type="number" style="width: 100%; padding: 8px 12px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 14px; box-sizing: border-box;" placeholder="例如: 3600" min="1" value="3600">
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; font-size: 13px; font-weight: 500; color: #86868b; margin-bottom: 6px;">每次快进时长 (秒)</label>
+                            <input id="skip-interval" type="number" style="width: 100%; padding: 8px 12px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 14px; box-sizing: border-box;" placeholder="例如: 30" min="1" value="30">
+                        </div>
+                        
+                        <div style="height: 3px; background: #e0e0e0; border-radius: 2px; margin-top: 15px; overflow: hidden;">
+                            <div id="skip-progress-bar" style="height: 100%; background: #0071e3; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        
+                        <div id="skip-time-display" style="text-align: center; font-size: 14px; color: #1d1d1f; margin-top: 10px; font-weight: 500;">0:00:00 / 1:00:00</div>
+                        
+                        <div style="display: flex; justify-content: center; margin-top: 15px;">
+                            <button id="skip-action-btn" style="background: #0071e3; color: white; border: none; border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; display: flex; align-items: center; transition: all 0.2s;">
+                                <div style="width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 12px solid white; margin-right: 6px;"></div>
+                                快进
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-        .controller-container {
-            background: white;
-            border-radius: 18px;
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #1d1d1f;
-            margin-top: 0;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #86868b;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #d2d2d7;
-            border-radius: 12px;
-            font-size: 16px;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #0071e3;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        .fast-forward-btn {
-            background: #0071e3;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
-        }
-
-        .fast-forward-btn:hover {
-            background: #0077ed;
-            transform: scale(1.05);
-        }
-
-        .fast-forward-btn:active {
-            transform: scale(0.98);
-        }
-
-        .fast-forward-icon {
-            width: 0;
-            height: 0;
-            border-top: 12px solid transparent;
-            border-bottom: 12px solid transparent;
-            border-left: 20px solid white;
-            position: relative;
-            margin-left: 4px;
-        }
-
-        .fast-forward-icon:before {
-            content: "";
-            position: absolute;
-            left: -24px;
-            top: -12px;
-            width: 0;
-            height: 0;
-            border-top: 12px solid transparent;
-            border-bottom: 12px solid transparent;
-            border-left: 20px solid white;
-        }
-
-        .time-display {
-            text-align: center;
-            font-size: 16px;
-            color: #1d1d1f;
-            margin-top: 20px;
-            font-weight: 500;
-        }
-
-        .progress-container {
-            height: 4px;
-            background: #e0e0e0;
-            border-radius: 2px;
-            margin-top: 30px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: #0071e3;
-            width: 0%;
-            transition: width 0.3s;
-        }
-    </style>`;
-
-    let html = `
-    ${css}
-    ${themeDetection}
-    <div class="controller-container">
-        <h1>视频快进控制器</h1>
-        
-        <div class="input-group">
-            <label for="total-time">视频总时长 (秒)</label>
-            <input type="number" id="total-time" placeholder="例如: 3600 (1小时)" min="1" value="3600">
-        </div>
-        
-        <div class="input-group">
-            <label for="skip-time">每次快进时长 (秒)</label>
-            <input type="number" id="skip-time" placeholder="例如: 30" min="1" value="30">
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        
-        <div class="time-display" id="time-display">当前时间: 0:00:00 / 1:00:00</div>
-        
-        <div class="button-container">
-            <button class="fast-forward-btn" id="fast-forward-btn">
-                <div class="fast-forward-icon"></div>
-            </button>
-        </div>
-    </div>`;
-
-               $log(6666666666)
+                <script>
+                (function() {
+                    // 初始化变量
+                    let currentTime = 0;
+                    let totalTime = 3600;
+                    let skipTime = 30;
+                    let panelVisible = false;
+                    
+                    // 获取DOM元素
+                    const floatBtn = document.getElementById('video-skip-float-btn');
+                    const panel = document.getElementById('video-skip-panel');
+                    const totalTimeInput = document.getElementById('skip-total-time');
+                    const skipTimeInput = document.getElementById('skip-interval');
+                    const actionBtn = document.getElementById('skip-action-btn');
+                    const timeDisplay = document.getElementById('skip-time-display');
+                    const progressBar = document.getElementById('skip-progress-bar');
+                    
+                    // 格式化时间为 HH:MM:SS
+                    function formatTime(seconds) {
+                        const hrs = Math.floor(seconds / 3600);
+                        const mins = Math.floor((seconds % 3600) / 60);
+                        const secs = Math.floor(seconds % 60);
+                        return \`\${hrs}:\${mins.toString().padStart(2, '0')}:\${secs.toString().padStart(2, '0')}\`;
+                    }
+                    
+                    // 更新显示
+                    function updateDisplay() {
+                        timeDisplay.textContent = \`\${formatTime(currentTime)} / \${formatTime(totalTime)}\`;
+                        const progress = Math.min((currentTime / totalTime) * 100, 100);
+                        progressBar.style.width = \`\${progress}%\`;
+                    }
+                    
+                    // 切换面板显示
+                    function togglePanel() {
+                        panelVisible = !panelVisible;
+                        panel.style.display = panelVisible ? 'block' : 'none';
+                    }
+                    
+                    // 事件监听
+                    floatBtn.addEventListener('click', togglePanel);
+                    
+                    actionBtn.addEventListener('click', function() {
+                        currentTime = Math.min(currentTime + skipTime, totalTime);
+                        updateDisplay();
+                        
+                        // 添加点击反馈
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = 'scale(1)';
+                        }, 200);
+                    });
+                    
+                    totalTimeInput.addEventListener('input', function() {
+                        totalTime = parseInt(this.value) || 0;
+                        updateDisplay();
+                    });
+                    
+                    skipTimeInput.addEventListener('input', function() {
+                        skipTime = parseInt(this.value) || 0;
+                    });
+                    
+                    // 初始化
+                    updateDisplay();
+                })();
+                </script>`;
+    
     return html;
 };
 
