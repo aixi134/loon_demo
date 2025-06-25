@@ -12,8 +12,6 @@
 hostname = %APPEND% free.hulizhushou.com, apapia-sqk-weblogic.manmanbuy.com
 */
 
-const { json } = require("stream/consumers");
-
 const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
     init();
 
