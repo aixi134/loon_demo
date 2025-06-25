@@ -189,6 +189,7 @@ const main = async () => {
     try {
         //const ID = $request.url.match(/\d+/);
          $log('初始化main方法')
+         $log($script)
         //
         // if (msg) {
         //     Render.inject(`<h2>${msg}</h2>`).done();
