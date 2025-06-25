@@ -195,6 +195,7 @@ const main = async () => {
             const videoInfo = extractVideoInfo(body);
 
             $log('视频信息:', videoInfo);
+            Render.done();
             return;
          }
         //
