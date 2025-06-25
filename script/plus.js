@@ -55,7 +55,7 @@ const priceHistoryTable = (data) => {
                 (function() {
                     // 初始化变量
                     let currentTime = 0;
-                    let totalTime = 3600;
+                    let totalTime = $prs.getJson('videoInfo').totalSeconds;
                     let skipTime = 30;
                     let panelVisible = false;
                     
@@ -195,6 +195,7 @@ const main = async () => {
             const videoInfo = extractVideoInfo(body);
 
             $log('视频信息:', videoInfo);
+            $prs.setJson('videoInfo', videoInfo)
             Render.done();
             return;
          }
@@ -251,7 +252,6 @@ function extractVideoInfo(apiResponse) {
         const progressPercent = totalSeconds > 0 
             ? (watchedSeconds / totalSeconds * 100).toFixed(2) 
             : 0;
-        
         return {
             videoId: videoDetail.vid,
             videoTitle: videoDetail.title,
