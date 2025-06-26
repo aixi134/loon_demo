@@ -241,7 +241,7 @@ const main = async () => {
             last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
             updatePlaybackPosition();
 
-            $done();
+            
             return;
          }
 
@@ -287,6 +287,7 @@ function updatePlaybackPosition() {
     if(watchedSeconds >= totalSeconds) {
         clearInterval(updateInterval);
         $log("Video playback completed. Stopping updates.");
+        $done();
     }
 }
 
