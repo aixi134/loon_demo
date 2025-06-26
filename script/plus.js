@@ -232,6 +232,7 @@ const main = async () => {
         const isDark = hour >= 20 || hour < 6;
         if($script.name == '加速推送视频'){
             let inPlus = $prs.get('inPlus');
+            $log('inPlus:',inPlus)
             if(!inPlus){
                 $prs.set('inPlus', true);
             }else{
