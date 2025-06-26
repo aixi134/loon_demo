@@ -231,6 +231,12 @@ const main = async () => {
             $log(videoInfo)
             const {body} = $request;
             $log('请求参数：',body);
+            const apiBody =  JSON.parse(body);
+            const totalSeconds = apiBody.totalSeconds; // 视频总时长
+            const watchedSeconds = apiBody.watchedSeconds;   // 已观看时长
+            const last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
+            updatePlaybackPosition(totalSeconds, watchedSeconds);
+
             $done({});
             return;
          }
@@ -246,6 +252,43 @@ const main = async () => {
     }
 };
 
+// 定时更新函数
+function updatePlaybackPosition(totalSeconds, watchedSeconds, last_et) {
+    // 每次增加60秒
+    watchedSeconds += 60;
+    last_et= watchedSeconds + 60;
+    
+    // 确保不超过总时长
+    if(watchedSeconds > totalSeconds) {
+        watchedSeconds = totalSeconds;
+    }
+    if(last_et > totalSeconds) {
+        last_et = totalSeconds;
+    }
+    
+    // 更新请求参数
+    requestParams.last_et = last_et;
+    requestParams.rngs = [{
+        "s": watchedSeconds,
+        "e": last_et
+    }];
+    
+    $log(`Updated positions - watched: ${watchedSeconds}s, end: ${last_et}s`);
+    $log(requestParams);
+    
+    // 如果已经观看完视频，清除定时器
+    if(watchedSeconds >= totalSeconds) {
+        // clearInterval(updateInterval);
+        $log("Video playback completed. Stopping updates.");
+    }
+}
+
+// // 每10秒执行一次更新
+// const updateInterval = setInterval(updatePlaybackPosition, 10000);
+
+// // 初始打印
+// console.log("Initial playback parameters:");
+// console.log(requestParams);
 
 //获取视频信息
 /**
