@@ -226,8 +226,13 @@ const main = async () => {
 
         const hour = new Date().getHours();
         const isDark = hour >= 20 || hour < 6;
-        const videoInfo = $prs.getJson('videoInfo');
-        $log(videoInfo)
+        if($script.name == '加速推送视频'){
+            const videoInfo = $prs.getJson('videoInfo');
+            $log(videoInfo)
+            $request.done({});
+            return;
+         }
+
         Render
             .inject(Table({}))
             .inject(`<script>isDark=${isDark}</script>`)
@@ -287,7 +292,6 @@ function extractVideoInfo(apiResponse) {
                 id: apiResponse.data.project_info?.project_id,
                 name: apiResponse.data.project_info?.project_name
             },
-            rawData: videoDetail // 原始数据(如需其他字段)
         };
     } catch (error) {
         return {
