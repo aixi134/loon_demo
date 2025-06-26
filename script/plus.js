@@ -14,7 +14,7 @@ hostname = %APPEND% free.hulizhushou.com, apapia-sqk-weblogic.manmanbuy.com
 const totalSeconds = 0; // 视频总时长
 let watchedSeconds = 0;   // 已观看时长
 let last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
-let requestParams = {};
+let requestParams;
 
 const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
     init();
