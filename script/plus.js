@@ -235,7 +235,7 @@ const main = async () => {
             const totalSeconds = apiBody.totalSeconds; // 视频总时长
             const watchedSeconds = apiBody.watchedSeconds;   // 已观看时长
             const last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
-            updatePlaybackPosition(totalSeconds, watchedSeconds);
+            updatePlaybackPosition(apiBody, totalSeconds, watchedSeconds);
 
             $done({});
             return;
@@ -253,10 +253,10 @@ const main = async () => {
 };
 
 // 定时更新函数
-function updatePlaybackPosition(totalSeconds, watchedSeconds, last_et) {
+function updatePlaybackPosition(requestParams, totalSeconds, watchedSeconds) {
     // 每次增加60秒
     watchedSeconds += 60;
-    last_et= watchedSeconds + 60;
+    const last_et= watchedSeconds + 60;
     
     // 确保不超过总时长
     if(watchedSeconds > totalSeconds) {
