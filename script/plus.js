@@ -272,7 +272,7 @@ function updatePlaybackPosition() {
     
     // 更新请求参数
     const newParams = {
-        ...requestParams, // 复制原有属性
+    
         last_et: last_et,
         rngs: [{ s: watchedSeconds, e: last_et }]
     };
