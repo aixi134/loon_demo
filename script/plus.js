@@ -11,6 +11,10 @@
 [MITM]
 hostname = %APPEND% free.hulizhushou.com, apapia-sqk-weblogic.manmanbuy.com
 */
+const totalSeconds = 0; // 视频总时长
+let watchedSeconds = 0;   // 已观看时长
+let last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
+let requestParams = {};
 
 const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
     init();
@@ -231,11 +235,11 @@ const main = async () => {
             $log(videoInfo)
             const {body} = $request;
             $log('请求参数：',body);
-            const apiBody =  JSON.parse(body);
-            const totalSeconds = apiBody.totalSeconds; // 视频总时长
-            const watchedSeconds = apiBody.watchedSeconds;   // 已观看时长
-            const last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
-            updatePlaybackPosition(apiBody, totalSeconds, watchedSeconds);
+            requestParams =  JSON.parse(body);
+            totalSeconds = videoInfo.totalSeconds; // 视频总时长
+            watchedSeconds = videoInfo.watchedSeconds;   // 已观看时长
+            last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
+            updatePlaybackPosition();
 
             $done({});
             return;
@@ -253,10 +257,10 @@ const main = async () => {
 };
 
 // 定时更新函数
-function updatePlaybackPosition(requestParams, totalSeconds, watchedSeconds) {
+function updatePlaybackPosition() {
     // 每次增加60秒
     watchedSeconds += 60;
-    const last_et= watchedSeconds + 60;
+    last_et += 60;
     
     // 确保不超过总时长
     if(watchedSeconds > totalSeconds) {
