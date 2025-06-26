@@ -229,7 +229,9 @@ const main = async () => {
         if($script.name == '加速推送视频'){
             const videoInfo = $prs.getJson('videoInfo');
             $log(videoInfo)
-            $request.done({});
+            const {body} = $request;
+            $log('请求参数：',body);
+            $done({});
             return;
          }
 
