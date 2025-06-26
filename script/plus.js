@@ -59,7 +59,7 @@ const priceHistoryTable = (data) => {
                 (function() {
                     // 初始化变量
                     let currentTime = 0;
-                    let totalTime = $prs.getJson('videoInfo').totalSeconds;
+                    let totalTime = 60;
                     let skipTime = 30;
                     let panelVisible = false;
                     
@@ -190,10 +190,10 @@ const Render = {
     inject(html) {
                  $log(222222222)
         const { body } = $response;
-        $log(html);
+        //$log(html);
         //$response.body = body.replace("<body>", `<body>${html}`);
         $response.body = body.replace(/(<body[^>]*>)/i, `$1${html}`);
-        $log($response.body);
+        //$log($response.body);
         return this;
     },
     done() {
@@ -211,9 +211,9 @@ const main = async () => {
             const { body } = $response;
             const videoInfo = extractVideoInfo(body);
 
-            $log('视频信息:', videoInfo);
-            $msg(videoInfo);
-            $msg('视频信息:', videoInfo);
+            //$log('视频信息:', videoInfo);
+            //$msg(videoInfo);
+            //$msg('视频信息:', videoInfo);
             $prs.setJson('videoInfo', videoInfo);
             Render.done();
             return;
@@ -226,7 +226,8 @@ const main = async () => {
 
         const hour = new Date().getHours();
         const isDark = hour >= 20 || hour < 6;
-
+        $prs.setJson('videoInfo', videoInfo);
+        $log(videoInfos)
         Render
             .inject(Table({}))
             .inject(`<script>isDark=${isDark}</script>`)
