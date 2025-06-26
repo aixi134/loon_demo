@@ -241,7 +241,7 @@ const main = async () => {
             last_et = watchedSeconds + 60; // 初始结束时间比watched多60秒
             updatePlaybackPosition();
 
-            $done({});
+            $done();
             return;
          }
 
