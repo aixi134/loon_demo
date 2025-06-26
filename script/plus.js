@@ -233,8 +233,8 @@ const main = async () => {
         if($script.name == '加速推送视频'){
             let inPlus = $prs.get('inPlus');
             $log('inPlus:',inPlus)
-            if(!inPlus){
-                $prs.set('inPlus', true);
+            if(!inPlus || inPlus == '1'){
+                $prs.set('inPlus', '2');
             }else{
                 $done();
                 return;
@@ -296,7 +296,7 @@ function updatePlaybackPosition() {
     if(watchedSeconds >= totalSeconds) {
         clearInterval(updateInterval);
         $log("Video playback completed. Stopping updates.");
-        $prs.set('inPlus', false);
+        $prs.set('inPlus', '1');
         $done();
     }
 }
