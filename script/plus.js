@@ -167,13 +167,13 @@ const priceHistoryTable = (data) => {
     // }
 
     // 监听可能的重载事件（如React Native的页面刷新）
-    window.addEventListener('load', () => {
-        $log('不存在快进功能');
-        if (!document.getElementById(containerId)) {
-            $log('不存在快进功能，添加他');
-            document.body.insertAdjacentHTML('beforeend', html);
-        }
-    });
+    // window.addEventListener('load', () => {
+    //     $log('不存在快进功能');
+    //     if (!document.getElementById(containerId)) {
+    //         $log('不存在快进功能，添加他');
+    //         document.body.insertAdjacentHTML('beforeend', html);
+    //     }
+    // });
     return html;
 };
 
@@ -212,7 +212,9 @@ const main = async () => {
             const videoInfo = extractVideoInfo(body);
 
             $log('视频信息:', videoInfo);
-            $prs.setJson('videoInfo', videoInfo)
+            $msg(videoInfo);
+            $msg('视频信息:', videoInfo);
+            $prs.setJson('videoInfo', videoInfo);
             Render.done();
             return;
          }
