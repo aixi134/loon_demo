@@ -278,10 +278,10 @@ function updatePlaybackPosition() {
     };
 
     // 重新赋值（避免直接修改只读对象）
-    requestParams = newParams;
+    // requestParams = newParams;
 
     $log(`Updated positions - watched: ${watchedSeconds}s, end: ${last_et}s`);
-    $log(requestParams);
+    $log(newParams);
     
     // 如果已经观看完视频，清除定时器
     if(watchedSeconds >= totalSeconds) {
