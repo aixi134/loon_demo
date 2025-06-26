@@ -226,8 +226,8 @@ const main = async () => {
 
         const hour = new Date().getHours();
         const isDark = hour >= 20 || hour < 6;
-        $prs.setJson('videoInfo', videoInfo);
-        $log(videoInfos)
+        const videoInfo = $prs.getJson('videoInfo');
+        $log(videoInfo)
         Render
             .inject(Table({}))
             .inject(`<script>isDark=${isDark}</script>`)
