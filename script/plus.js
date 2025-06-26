@@ -271,12 +271,15 @@ function updatePlaybackPosition() {
     }
     
     // 更新请求参数
-    requestParams.last_et = last_et;
-    requestParams.rngs = [{
-        "s": watchedSeconds,
-        "e": last_et
-    }];
-    
+    const newParams = {
+        ...requestParams, // 复制原有属性
+        last_et: last_et,
+        rngs: [{ s: watchedSeconds, e: last_et }]
+    };
+
+    // 重新赋值（避免直接修改只读对象）
+    requestParams = newParams;
+
     $log(`Updated positions - watched: ${watchedSeconds}s, end: ${last_et}s`);
     $log(requestParams);
     
