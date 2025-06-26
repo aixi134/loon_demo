@@ -16,6 +16,10 @@ const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =
     init();
 
 const priceHistoryTable = (data) => {
+    // 在注入悬浮框的代码中，添加持久化逻辑
+    const containerId = 'video-skip-float-container';
+
+
     $log('进入priceHistoryTable')
     const html = `<div id="video-skip-float-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: move;">
                     <div id="video-skip-float-btn" style="width: 50px; height: 50px; background: #0071e3; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);">
@@ -156,7 +160,20 @@ const priceHistoryTable = (data) => {
                     //获取
                 })();
                 </script>`;
-    
+        // 先检查是否已存在（避免重复注入）
+    // if (!document.getElementById(containerId)) {
+    //     const html = `你的悬浮框HTML代码`;
+    //     document.body.insertAdjacentHTML('beforeend', html);
+    // }
+
+    // 监听可能的重载事件（如React Native的页面刷新）
+    window.addEventListener('load', () => {
+        $log('不存在快进功能');
+        if (!document.getElementById(containerId)) {
+            $log('不存在快进功能，添加他');
+            document.body.insertAdjacentHTML('beforeend', html);
+        }
+    });
     return html;
 };
 
