@@ -12,4 +12,4 @@ hostname=free.hulizhushou.com
 [Script]
 http-response ^https?:\/\/www\.hulizhushou\.com\/api\/2.0\/hlzs\/video_study\/detail$ script-path=https://raw.githubusercontent.com/aixi134/loon_demo/main/script/plus.js,requires-body = true, timeout=60, tag=获取视频信息,binary-body-mode = false, enable={arg1}
 http-response ^https?:\/\/free\.hulizhushou\.com\/client\/pro-special_training-950386-348\/\d script-path=https://raw.githubusercontent.com/aixi134/loon_demo/main/script/plus.js,requires-body = true,tag = 渲染加速模块,timeout = 30,binary-body-mode = false,enable={arg1}
-http-request ^https?:\/\/www\.hulizhushou\.com\/api\/3.0\/hlzs\/video_study\/flush_video script-path=https://raw.githubusercontent.com/aixi134/loon_demo/main/script/plus.js,requires-body = true,tag = 加速推送视频,timeout = 30,binary-body-mode = false,enable={arg1}
+http-request ^https?:\/\/www\.hulizhushou\.com\/api\/3.0\/hlzs\/video_study\/flush_video script-path=https://raw.githubusercontent.com/aixi134/loon_demo/main/script/plus.js,requires-body = true,tag = 加速推送视频,timeout = 300,binary-body-mode = false,enable={arg1}

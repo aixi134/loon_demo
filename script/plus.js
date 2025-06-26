@@ -231,6 +231,14 @@ const main = async () => {
         const hour = new Date().getHours();
         const isDark = hour >= 20 || hour < 6;
         if($script.name == '加速推送视频'){
+            let inPlus = $prs.get('inPlus');
+            if(!inPlus){
+                $prs.set('inPlus', true);
+            }else{
+                $done();
+                return;
+            }
+            
             const videoInfo = $prs.getJson('videoInfo');
             $log(videoInfo)
             const {body} = $request;
@@ -287,6 +295,7 @@ function updatePlaybackPosition() {
     if(watchedSeconds >= totalSeconds) {
         clearInterval(updateInterval);
         $log("Video playback completed. Stopping updates.");
+        $prs.set('inPlus', false);
         $done();
     }
 }
